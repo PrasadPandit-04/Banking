@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Bank Marketing - Capstone Project</title>
+	    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 48px;
+            font-weight: bold;
+            color: #FF4500;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h6 {
+            color: #cf1d1d;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+        .model-section {
+            border: 2px solid #4f3b3b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        table {
+            width: 60%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            text-align: right;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+        }
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #cf1d1d;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 36px;
+            }
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+	</head>
+<body>
+    <header>
+        <h1 style="cursor: pointer; user-select: none;" onclick="window.location.href='{{ url_for('render_welcome') }}'">
+            Bank Marketing - Capstone Project
+        </h1>
+			<h2 style="text-align: right; color: #5b5c5b; font-family: 'Arial', sans-serif; font-size: 20px; margin-top: 10px; margin-right: 24%;">
+			    Designed and Developed by Prasad Pandit
+			</h2>
+		</header>
+
+    {% block content %}
+    {% endblock %}
+
+    <div class="footer">
+        <p>&copy; 2023 Bank Marketing Capstone Project by Prasad Pandit. All rights reserved.</p>
+    </div>
+</body>
+</html>

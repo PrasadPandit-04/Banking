@@ -1,0 +1,114 @@
+{% extends "banking_wrapper.html" %}
+
+{% block content %}
+
+	<div class="container" 	style="color: #4f3b3b;">
+			<h3>Information about the Dataset:</h3>
+			<p>The data is related to direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, in order to assess if the product (bank term deposit) would be (or not) subscribed.</p>
+
+			<h3>Goal:</h3>
+			<p>The classification goal is to predict if the client will subscribe to a term deposit (variable y).</p>
+
+			<div class="model-section">
+				<h6>Model 1: Initial Hypertuned Model - CatBoost Classifier</h6>
+				<p><span class="highlight">High Accuracy and Recall:</span></p>
+				<table>
+					<thead>
+						<tr>
+							<th>Model</th>
+							<th>Accuracy</th>
+							<th>Precision</th>
+							<th>Recall</th>
+							<th>F1-Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>best_cat_pipe</td>
+							<td>0.902882</td>
+							<td>0.562185</td>
+							<td>0.766762</td>
+							<td>0.648727</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>This model is designed to capture as many potential clients as possible who will subscribe to a term deposit, even at the cost of some false positives. It focuses on recall, ensuring that the majority of true clients are captured, even if some non-subscriber clients are incorrectly identified.</p>
+				<p><span class="highlight">Goal:</span> When the company cares most about catching every potential subscriber client, even if it means allowing some mistakes (false positives).</p>
+			</div>
+
+			<div class="model-section">
+				<h6>Model 2: CatBoost Classifier With Calibration</h6>
+				<p><span class="highlight">High Accuracy and Balanced Recall/Precision:</span></p>
+				<table>
+					<thead>
+						<tr>
+							<th>Model</th>
+							<th>Accuracy</th>
+							<th>Precision</th>
+							<th>Recall</th>
+							<th>F1-Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>best_cat_calibrted</td>
+							<td>0.914343</td>
+							<td>0.655771</td>
+							<td>0.563324</td>
+							<td>0.606042</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>This model tries to strike a balance between catching subscribers and being more accurate about who actually subscribes. It improves precision and recall, giving a more balanced prediction.</p>
+				<p><span class="highlight">Goal:</span> When the company needs a balanced approach to predicting subscribers, with fewer mistakes and more reliable results.</p>
+			</div>
+
+			<div class="model-section">
+				<h6>Model 3: CatBoost Classifier With Calibration and Threshold 0.6</h6>
+				<p><span class="highlight">High Accuracy and Precision:</span></p>
+				<table>
+					<thead>
+						<tr>
+							<th>Model</th>
+							<th>Accuracy</th>
+							<th>Precision</th>
+							<th>Recall</th>
+							<th>F1-Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>prob_best_cat_calb</td>
+							<td>0.911327</td>
+							<td>0.694291</td>
+							<td>0.432092</td>
+							<td>0.532674</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>This model reduces mistakes (false positives) by being more confident when correctly predicting clients who will subscribe. It might miss a few subscriber clients (because of the probability value 0.6) but is more accurate about the ones it does predict.</p>
+				<p><span class="highlight">Goal:</span> When the company wants to reduce false positives and focus on being more confident about predicting real subscribers, even if it means missing some.</p>
+			</div>
+
+            <div style="color:red; text-align:center;">
+                <form method="POST" action="{{ url_for('render_welcome') }}">
+                    <h4>Select Model
+                            <select name='model' id="model_options" style="font-size: 12pt;">
+                                {% for key in model_options.keys() %}
+                                    <option value= "{{ model_options[key] }}"> {{ key }} </option>
+                                {% endfor %}
+                            </select>
+                    </h4>
+                    <p style="text-align: center;">
+                        <button type="submit" class="model-select" style="padding: 10px 20px; font-size: 16px; background-color: #FF4500; color: #fff; border: none; border-radius: 5px; cursor: pointer; box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);">
+                            Proceed to Prediction
+                        </button>
+                    </p>
+                </form>
+            </div>
+    </div>
+
+{% endblock %}
+
+	</body>
+</html>

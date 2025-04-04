@@ -1,0 +1,396 @@
+{% extends "banking_wrapper.html" %}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            color: #FF4500;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h3 {
+            color: #FF4500;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        .pred-h3 {
+            color: #3f57b0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .feature-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 15px; /* Increased padding for better size consistency */
+            font-size: 16px;
+            border: 2px solid #4f3b3b;
+            border-radius: 5px;
+            margin-bottom: 15px; /* Increased bottom margin for better spacing */
+            background-color: #f4f4f4;
+            color: #333;
+            box-sizing: border-box; /* Ensures padding does not affect total width */
+        }
+        input:focus, select:focus {
+            border-color: #FF4500;
+            outline: none;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #FF4500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        button.download-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #3f57b0;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #e63900;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 5px;
+        }
+        .alert {
+          padding: 20px;
+          background-color: #f44336;
+          color: white;
+        }
+        .closebtn {
+          margin-left: 15px;
+          color: white;
+          font-weight: bold;
+          float: right;
+          font-size: 22px;
+          line-height: 20px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        .closebtn:hover {
+          color: black;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <form method="POST" action="{{ url_for('render_prediction') }}">
+        <h2>How would you like to provide input?</h2>
+        <button type="submit" name="input_type" value="manual" class="option-button">Enter Features Manually</button>
+        <button type="submit" name="input_type" value="csv" class="option-button">Upload CSV File</button>
+    </form>
+    <!-- Manual Input Form -->
+    {% if show_manual_form %}
+    <div id="manual" class="form-section">
+		<form id="manual_form" method="POST" action="{{ url_for('manual_form') }}">
+        <h2>Enter Feature Values Manually</h2>
+            <p> {{ input_method }} </p>
+		<!-- Personal Details Section -->
+		<div class="section">
+			<h3>Personal Details</h3>
+<!--				<form method="POST" action="{{ url_for('manual_form') }}">-->
+					<!-- Add your input fields for manual feature entry here -->
+					<!-- <div class="section"> -->
+					<div class="feature-row">
+						<!-- Age -->
+						<div>
+							<label for="age">Age:</label>
+							<input type="number" id="age" name="age" value="18" min="1" max="100" step="1" oninput="validateNumericInput(this, 1, 100)">
+							<span id="ageError" class="error">Value must be between 1 and 100.</span>
+						</div>
+
+						<!-- Job -->
+						<div>
+							<label for="job">Job:</label>
+							<select id="job" name="job">
+								<option value="student" selected>student</option>
+								<option value="technician">technician</option>
+								<option value="entrepreneur">entrepreneur</option>
+								<option value="blue-collar">blue-collar</option>
+								<option value="unknown">unknown</option>
+								<option value="retired">retired</option>
+								<option value="admin.">admin.</option>
+								<option value="services">services</option>
+								<option value="self-employed">self-employed</option>
+								<option value="unemployed">unemployed</option>
+								<option value="housemaid">housemaid</option>
+								<option value="management">management</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="feature-row">
+						<!-- Marital Status -->
+						<div>
+							<label for="marital">Marital Status:</label>
+							<select id="marital" name="marital">
+								<option value="married">married</option>
+								<option value="single" selected>single</option>
+								<option value="divorced">divorced</option>
+							</select>
+						</div>
+
+						<!-- Education -->
+						<div>
+							<label for="education">Education:</label>
+							<select id="education" name="education">
+								<option value="tertiary">tertiary</option>
+								<option value="secondary">secondary</option>
+								<option value="unknown">unknown</option>
+								<option value="primary" selected>primary</option>
+							</select>
+						</div>
+					</div>
+<!--				</Form>-->
+            <!-- </div> -->
+		</div>
+
+        <!-- Financial Details Section -->
+        <div class="section">
+			<h3>Financial Details</h3>
+<!--                <form method="POST" action="{{ url_for('manual_form') }}">-->
+				<div class="feature-row">
+                    <!-- Balance -->
+                    <div>
+                        <label for="balance">Balance:</label>
+                        <input type="number" id="balance" name="balance" value="108" min="-3000" max="150000" step="1" oninput="validateNumericInput(this, -3000, 150000)">
+                        <span id="balanceError" class="error">Value must be between -3000 and 150000.</span>
+                    </div>
+
+                    <!-- Housing Loan -->
+                    <div>
+                        <label for="housing">Has Housing Loan?</label>
+                        <select id="housing" name="housing">
+                            <option value="no" selected>no</option>
+                            <option value="yes">yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <!-- Personal Loan -->
+                    <div>
+                        <label for="loan">Has Personal Loan?</label>
+                        <select id="loan" name="loan">
+                            <option value="no" selected>no</option>
+                            <option value="yes">yes</option>
+                        </select>
+                    </div>
+
+                    <!-- Default -->
+                    <div>
+                        <label for="default">Has Credit in Default?</label>
+                        <select id="default" name="default">
+                            <option value="no" selected>no</option>
+                            <option value="yes">yes</option>
+                        </select>
+                    </div>
+                </div>
+<!--				</Form>-->
+		</div>
+		
+		<!-- Contact and Campaign Details Section -->
+        <div class="section">
+			<h3>Contact and Campaign Details</h3>
+<!--                <form method="POST" action="{{ url_for('manual_form') }}">-->
+				<div class="feature-row">
+                    <!-- Contact -->
+                    <div>
+                        <label for="contact">Contact Type:</label>
+                        <select id="contact" name="contact">
+                            <option value="unknown">unknown</option>
+                            <option value="cellular" selected>cellular</option>
+                            <option value="telephone">telephone</option>
+                        </select>
+                    </div>
+
+                    <!-- Day -->
+                    <div>
+                        <label for="day">Day:</label>
+                        <input type="number" id="day" name="day" value="8" min="1" max="31" step="1" oninput="validateNumericInput(this, 1, 31)">
+                        <span id="dayError" class="error">Value must be between 1 and 31.</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <!-- Month -->
+                    <div>
+                        <label for="month">Month:</label>
+                        <select id="month" name="month">
+                            <option value="may">may</option>
+                            <option value="jun">jun</option>
+                            <option value="jul">jul</option>
+                            <option value="aug" >aug</option>
+                            <option value="oct">oct</option>
+                            <option value="nov">nov</option>
+                            <option value="dec">dec</option>
+                            <option value="jan">jan</option>
+                            <option value="feb">feb</option>
+                            <option value="mar">mar</option>
+                            <option value="apr">apr</option>
+                            <option value="sep" selected>sep</option>
+                        </select>
+                    </div>
+
+                    <!-- Duration -->
+                    <div>
+                        <label for="duration">Duration:</label>
+                        <input type="number" id="duration" name="duration" value="169" min="1" max="5000" step="1" oninput="validateNumericInput(this, 1, 5000)">
+                        <span id="durationError" class="error">Value must be between 1 and 5000.</span>
+                    </div>
+                </div>
+
+                <div class="feature-row">
+                    <!-- Campaign -->
+                    <div>
+                        <label for="campaign">Campaign:</label>
+                        <input type="number" id="campaign" name="campaign" value="1" min="1" max="50" step="1" oninput="validateNumericInput(this, 1, 50)">
+                        <span id="campaignError" class="error">Value must be between 1 and 50.</span>
+                    </div>
+
+                    <!-- Pdays -->
+                    <div>
+                        <label for="pdays">Pdays:</label>
+                        <input type="number" id="pdays" name="pdays" value="-1" min="-1" max="900" step="1" oninput="validateNumericInput(this, -1, 900)">
+                        <span id="pdaysError" class="error">Value must be between -1 and 900.</span>
+                    </div>
+                </div>
+				
+				<div class="feature-row">
+                    <!-- Previous -->
+					<div>
+						<label for="previous">Previous:</label>
+						<input type="number" id="previous" name="previous" value="0" min="0" max="50" step="1" oninput="validateNumericInput(this, 0, 50)">
+						<span id="previousError" class="error">Value must be between 0 and 50.</span>
+					</div>
+
+					<!-- Poutcome -->
+					<div>
+					<label for="poutcome">Poutcome:</label>
+						<select id="poutcome" name="poutcome">
+							<option value="unknown" selected>unknown</option>
+							<option value="failure">failure</option>
+							<option value="other">other</option>
+							<option value="success">success</option>
+						</select>
+					</div>
+				</div>
+<!--				</Form>-->
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" name="submit_manual" class="option-button">Submit</button>
+		</form>
+	</div>
+    {% endif %}
+
+		<!-- CSV Upload Form -->
+    {% if show_csv_form %}
+		<div id="csv" class="form-section">
+			<h3>Upload CSV File</h3>
+				<form id="csv_form" action="{{ url_for('csv_form') }}" method="POST" enctype="multipart/form-data">
+					<input type="file" name="csvfile" accept=".csv"><br><br>
+					<button type="submit" name="submit_csv" class="option-button">Upload CSV</button>
+				</form>
+		</div>
+	{% endif %}
+
+    {% if show_download %}
+        <form action="{{ url_for('download_file') }}" method='POST'>
+            <button type="submit" name="download_csv" class="download-button">Download Predictions</button>
+        </form>
+    {% endif %}
+
+    {% if show_manual_prediction %}
+        <form action="{{ url_for('manual_form') }}" method='POST'>
+            <h3 class="pred-h3"><strong> {{ prediction }} </strong></h3>
+        </form>
+    {% endif %}
+
+    {% with msg = get_flashed_messages() %}
+        {% if msg %}
+            {% for message in msg %}
+                <br>
+                <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong> {{ message }} </strong>
+                </div>
+                <br>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<script>
+    // Function to validate numeric inputs
+    function validateNumericInput(input, min, max) {
+        let value = parseInt(input.value);
+        if (value < min || value > max) {
+            input.setCustomValidity(`Value must be between ${min} and ${max}.`);
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+</script>
+
+</body>
+{% endblock %}

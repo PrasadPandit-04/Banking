@@ -99,3 +99,6 @@ python app.py
 
 ## 📜 License
 MIT License https://choosealicense.com/licenses/mit/
+
+## Donation --> Way to heaven
+If you appreciate this project and want to support future work, consider buying me [☕](https://buymeacoffee.com/prasadpandp)... (or better, donating a [GPU](https://www.amazon.in/gp/cart/view.html?ref_=nav_cart) 😆).

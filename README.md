@@ -101,6 +101,5 @@ python app.py
 MIT License https://choosealicense.com/licenses/mit/
 
 
-## ![image](https://github.com/user-attachments/assets/4978c163-77f2-455b-bbe3-3318476559e8)
-Donation --> Way to heaven
+## 🚀 Donation --> Way to heaven
 If you appreciate this project and want to support future work, consider buying me [☕](https://buymeacoffee.com/prasadpandp)... (or better, donating a [GPU](https://www.amazon.in/gp/cart/view.html?ref_=nav_cart) 😆).

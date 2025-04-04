@@ -51,7 +51,7 @@ bank-marketing/
 └── requirements.txt      # Dependencies
 
 
-## 📊 Results
+## 📊 Performance Metrics
 
 ### Prediction Goal
 The classification goal is to predict if the client will subscribe to a term deposit (variable `y`).
